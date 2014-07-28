@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>d3 test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <p>hello1</p>
+        <p>hello2</p>
+        <p>hello3</p>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script>
+            var dataset = [12,22,30,40,54];
+            var w = 500;
+            var h = 200;
+            var padding = 20;
+            
+            var xScale = d3.scale.linear()
+                    .domain([0, d3.max(dataset)])
+                    .range([padding, w - padding])
+                    .nice();
+            
+            var svg = d3.select("body").append("svg").attr({width:w, height:h});
+            
+            var xAxis = d3.svg.axis()
+                    .scale(xScale)
+                    .orient("bottom");
+            svg.append("g")
+                    .call(xAxis);
+
+            svg.selectAll("rect")
+                    .data(dataset)
+                    .enter()
+                    .append("rect")
+                    .attr({
+                        x: padding,
+                        y: function(d, i) { return i * 25; },   
+                        width: function(d) { return xScale(d) - padding; },
+                        height: 20,
+                        fill: "red"
+                    });
+
+/* action
+            svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .on("mouseover", function(d) {
+                    d3.select(this).attr("fill", "orange");
+                })
+                .on("mouseout", function(d) {
+                    d3.select(this).attr("fill", "red");
+                })
+                .on("click", function(d) {
+                    var rs = d3.select(this).attr("r");
+                    alert(rs);
+                })
+                .attr({
+                    cx: function (d, i) { return 50 + (i * 100); },
+                    cy: h / 2,
+                    r: function(d) { return d; },
+                    fill: "red"
+                });
+
+
+
+/* each
+            svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .transition()
+                .delay(function(d, i) {
+                    return i * 300;
+                })
+                .duration(1000)
+                .ease("bounce")
+                .each("start", function() {
+                    d3.select(this).attr({
+                        fill: "green",
+                        r: 0,
+                        cy: h
+                    });
+                })
+                .attr({
+                    cx: function (d, i) { return 50 + (i * 100); },
+                    cy: h / 2,
+                    r: function(d) { return d; },
+                    fill: "red"
+                })
+                .each("end", function() {
+                    d3.select(this)
+                    .transition()
+                    .duration(800)
+                    .attr({
+                        fill: "ping",
+                        r: 0,
+                        cy: 0
+                    });
+                });
+
+    /* no each
+            svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .attr({
+                    cx: function (d, i) { return 50 + (i * 100); },
+                    cy: h / 2,
+                    r: 0,
+                    fill: "red"
+                })
+                .transition()
+                .delay(function(d, i) {
+                    return i * 300;
+                })
+                .duration(1000)
+                .ease("bounce")
+                .attr({
+                    r: function(d) { return d; }
+                });
+
+    /*
+            var p = d3.select("body").selectAll("p");
+            var update = p.data(dataset);
+            var exit = update.exit();
+            
+            update.text(function(d) {
+                return "update :" + d;
+            });
+            exit.remove();
+/*
+            var enter = update.enter();
+            
+            update.text(function(d) {
+                return "update :" + d;
+            })
+            
+            enter.append("p").text(function(d) {
+                return "enter: " + d;
+            })
+            
+            
+            /*
+            p.data(dataset).text(function(d, i) {
+                return i + " => " + d;
+            });
+
+           d3.select("body").append("p").text("test4");
+/*
+ * update -> text, style
+ * enter -> append
+ * exit -> remove
+ * 
+            p.text("hello")
+                    .style({
+                        "font-size": "28px",
+                        "font-weight": "bold"
+                    });
+                    
+            alert(p.style("font-size"));
+            p.style("font-size", function() {
+                return Math.floor(Math.random() * 29) + "px";
+            })
+           d3.select("body").append("p").text("test4");
+           d3.select("body").append("p").text("test4").remove();
+            */
+
+        </script>
+    </body>
+</html>
