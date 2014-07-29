@@ -21,19 +21,16 @@ and open the template in the editor.
         </style>
     </head>
     <body>
-        <p>hello1</p>
-        <p>hello2</p>
-        <p>hello3</p>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script>
             var dataset = {
                 nodes: [
-                    {id: 0, name: "Taro", sex: "M"},
-                    {id: 1, name: "Ken", sex: "M"},
-                    {id: 2, name: "Hana", sex: "F"},
-                    {id: 3, name: "Mike" ,sex: "M"},
-                    {id: 4, name: "Bob" ,sex: "M"},
-                    {id: 5, name: "Anna" ,sex: "F"}
+                    {id: 0, name: "Taro", sex: "M", tcpa: 1},
+                    {id: 1, name: "Ken", sex: "M",  tcpa: 2},
+                    {id: 2, name: "Hana", sex: "F",  tcpa: 3},
+                    {id: 3, name: "Mike" ,sex: "M",  tcpa: 4},
+                    {id: 4, name: "Bob" ,sex: "M" ,  tcpa: 5},
+                    {id: 5, name: "Anna" ,sex: "F",  tcpa: 6}
                 ],
                 links: [
                     {source: 0, target: 1},
@@ -68,13 +65,18 @@ and open the template in the editor.
                 .enter()
                 .append("circle")
                 .attr("class", "node")
-                .attr("r", 20)
+                .attr("r", function(d) {
+                    return d.tcpa * 10;
+                })
                 .style("fill", function(d) {
                     if(d.sex == "M"){
                         return "blue";
                     }else{
                         return "red";
                     }
+                })
+                .attr("text", function(d) {
+                    return "d.sex";
                 })
                 .call(force.drag);
                 force.on("tick", function() {
