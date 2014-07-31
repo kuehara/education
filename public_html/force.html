@@ -25,12 +25,12 @@ and open the template in the editor.
         <script>
             var dataset = {
                 nodes: [
-                    {id: 0, name: "Taro", sex: "M", tcpa: 1},
-                    {id: 1, name: "Ken", sex: "M",  tcpa: 2},
-                    {id: 2, name: "Hana", sex: "F",  tcpa: 3},
-                    {id: 3, name: "Mike" ,sex: "M",  tcpa: 4},
-                    {id: 4, name: "Bob" ,sex: "M" ,  tcpa: 5},
-                    {id: 5, name: "Anna" ,sex: "F",  tcpa: 6}
+                    {id: 0, name: "ad 1", sex: "M", tcpa: 1},
+                    {id: 1, name: "ad 2",  sex: "M", tcpa: 2},
+                    {id: 2, name: "ad 3", sex: "F", tcpa: 3},
+                    {id: 3, name: "ad 4", sex: "M", tcpa: 4},
+                    {id: 4, name: "ad 5" , sex: "M", tcpa: 5},
+                    {id: 5, name: "ad 6", sex: "F", tcpa: 6}
                 ],
                 links: [
                     {source: 0, target: 1},
@@ -68,17 +68,24 @@ and open the template in the editor.
                 .attr("r", function(d) {
                     return d.tcpa * 10;
                 })
+                
                 .style("fill", function(d) {
-                    if(d.sex == "M"){
-                        return "blue";
-                    }else{
+                    if(d.tcpa > 3){
                         return "red";
+                    }else{
+                        return "blue";
                     }
                 })
-                .attr("text", function(d) {
-                    return "d.sex";
-                })
                 .call(force.drag);
+                var text = svg.selectAll("text")
+                    .data(dataset.nodes)
+                    .enter()
+                    .append("text")
+                    .text(function(d){ return d.name })
+                    .attr("x", function(d){ d.x; })
+                    .attr("y", function(d){ d.y; })
+                    .attr("fill", "black");
+
                 force.on("tick", function() {
                     link.attr("x1", function(d) { return d.source.x; })
                         .attr("y1", function(d) { return d.source.y; })
@@ -86,6 +93,8 @@ and open the template in the editor.
                         .attr("y2", function(d) { return d.target.y; });
                     node.attr("cx", function(d) { return d.x; })
                         .attr("cy", function(d) { return d.y; });
+                    text.attr("x", function(d) { return d.x; })
+                        .attr("y", function(d) { return d.y; });
                 });
         </script>
     </body>
