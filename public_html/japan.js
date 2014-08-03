@@ -1,5 +1,5 @@
-var w = 1000;
-var h = 1000;
+var w = 1024;
+var h = 800;
 var cycle = [12,22,30,40,54];
 
 // SVG要素生成
@@ -9,6 +9,20 @@ var svg = d3.select("body")
           .attr("height", h)
           .attr("fill", "black");
 
+var imgList = ['ebis'];
+var svgImgs = svg.selectAll()
+                .data(imgList)
+                .enter()
+                .append('image')
+                .attr({
+                  'xlink:href': function (data) {
+                    return 'img/' + data + '.png';
+                  },
+                  'width'     : 200,
+                  'height'    : 300,
+                  'x'         : 100
+                });
+                  
 // 日本地図データ読み込み
 d3.json("./japan.json", function(json) {
     var japan = topojson.object(json, json.objects.japan).geometries;
@@ -22,6 +36,7 @@ d3.json("./japan.json", function(json) {
     // 緯度経度⇒パスデータ変換設定
     var path = d3.geo.path()
         .projection(projection);
+
     // パスデータとして日本地図描画
     svg.selectAll("path")
         .data(japan)
@@ -46,13 +61,24 @@ d3.json("./japan.json", function(json) {
             .attr({
                 fill: "green",
                 r: 0,
-                cy: h
+                cy: h,
+                cx: 0
             })
         })
         .attr({
-            r: 10,
+            r: 3,
             fill: "yellow",
-            stroke: "orange"
+            stroke: "orange",
+            cx: function(d) {
+                var lat = d.properties.latitude;
+                var lng = d.properties.longitude;
+                return projection([lng, lat])[0];                
+            },
+            cy: function(d) {
+                var lat = d.properties.latitude;
+                var lng = d.properties.longitude;
+                return projection([lng, lat])[1];                
+            }
         })
         .attr("stroke-width", 10)
         .each("end", function() {
@@ -62,12 +88,8 @@ d3.json("./japan.json", function(json) {
             .attr({
                 fill: "ping",
                 r: 0,
-                cy: 10
+                cy: 100,
+                cx: 250
             })
-            .attr("transform", function(d) {
-                var lat = d.properties.latitude;
-                var lng = d.properties.longitude;
-                return "translate(" + projection([lng, lat]) + ")";
-            });
         });
 });
