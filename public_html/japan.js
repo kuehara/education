@@ -9,6 +9,7 @@ var svg = d3.select("body")
           .attr("height", h)
           .attr("fill", "black");
 
+// ebis画像の表示
 var imgList = ['ebis'];
 var svgImgs = svg.selectAll()
                 .data(imgList)
@@ -47,10 +48,12 @@ d3.json("./japan.json", function(json) {
         .attr("stroke-width", 0.5)
         .style("fill", "#2C2C43");
 
-    svg.selectAll("circle")
+    var g = svg.selectAll("g")
         .data(japan)
         .enter()
-        .append("circle")
+        .append('g');
+        
+    g.append("circle")
         .transition()
         .delay(function(d, i) {
             return i * 300;
@@ -92,4 +95,25 @@ d3.json("./japan.json", function(json) {
                 cx: 250
             })
         });
+
+        var line = d3.svg.line()
+            .interpolate('basis')
+            .x(function(d) {return d[0];})
+            .y(function(d) {return d[1];});
+            
+        // 線要素定義
+        /*
+        var access_path = g.append('path')
+            .attr({
+              'd': function(d) {
+                var lat = d.properties.latitude;
+                var lng = d.properties.longitude;
+                return "line(" + projection([lng, lat]) + ")";  
+              },
+              'stroke': 'lightgreen',
+              'stroke-width': 5,
+              'fill': 'none',
+              'marker-end':"url(#arrowhead)",
+            });
+*/
 });
