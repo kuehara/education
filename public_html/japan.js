@@ -91,8 +91,12 @@ d3.json("./japan.json", function(json) {
             .attr({
                 fill: "ping",
                 r: 0,
-                cy: 100,
-                cx: 250
+                cy: function(d) {
+                    return Math.random() * 20 + 80;
+                },
+                cx: function(d) {
+                    return Math.random() * 60 + 180;
+                }
             })
         });
 
