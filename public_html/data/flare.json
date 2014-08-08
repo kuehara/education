@@ -1,0 +1,60 @@
+{
+ "name": "ロックオン家系図",
+ "children": [
+  {
+   "name": "岩田",
+   "children": [
+    {
+     "name": "中川仁",
+     "children": [
+        {
+            "name": "垣中",
+            "children": [
+              {"name": "金", "size": 6714},
+              {"name": "小谷", "size": 6714},
+              {"name": "岸田", "size": 6714},
+              {"name": "内田肇", "size": 6714},
+              {"name": "上原", "size": 6714},
+              {"name": "足立", "size": 6714}
+            ]
+        },
+        {
+            "name": "池田（太）",
+            "children": [
+              {"name": "前山", "size": 1}
+            ]
+        }
+    ]},
+    {"name": "梶原", "size": 6714}
+   ]
+  },
+  {
+   "name": "福田",
+   "children": [
+        {"name": "井上"},
+        {"name": "もは"},
+        {
+            "name": "佐藤",
+            "children": [
+              {"name": "加嶋", "size": 3812}
+            ]
+        },
+        {"name": "雪村"},
+        {"name": "満田"}
+       ]
+   },
+   {
+   "name": "又座",
+   "children": [
+    {
+     "name": "a",
+     "children": [
+      {"name": "長野", "size": 3812},
+      {"name": "川手", "size": 6714},
+      {"name": "一木", "size": 743}
+     ]
+    }
+   ]
+  }
+ ]
+}
